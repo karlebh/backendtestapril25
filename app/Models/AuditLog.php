@@ -9,4 +9,6 @@ class AuditLog extends Model
 {
     /** @use HasFactory<\Database\Factories\AuditLogFactory> */
     use HasFactory;
+
+    protected $fillable = ['company_id', 'user_id', 'action', 'changes'];
 }

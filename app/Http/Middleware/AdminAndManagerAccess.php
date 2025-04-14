@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminOnlyAccess
+class AdminAndManagerAccess
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class AdminOnlyAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->role !== UserRole::Admin) {
-            return response()->json(['message' => 'Only admins can perform this action'], 403);
+        if ($request->user()->role === UserRole::Employee) {
+            return response()->json(['message' => 'Only admins and managers can perform this action'], 403);
         }
 
         return $next($request);

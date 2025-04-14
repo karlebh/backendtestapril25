@@ -11,6 +11,8 @@ class Company extends Model
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
 
+    protected $fillable = ['name', 'email'];
+
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
