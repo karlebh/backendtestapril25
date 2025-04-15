@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Constants\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
@@ -46,7 +47,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'company_id' => $request->company_id,
-                'role' => $request->role,
+                'role' => UserRole::ADMIN,
                 'password' => Hash::make($request->password),
             ]);
 

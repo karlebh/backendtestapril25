@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('category');
             $table->timestamps();
 
-            $table->index(['user_id', 'category_id']);
+            $table->index(['user_id', 'company_id']);
         });
     }
 

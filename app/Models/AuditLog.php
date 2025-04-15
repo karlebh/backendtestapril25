@@ -11,4 +11,11 @@ class AuditLog extends Model
     use HasFactory;
 
     protected $fillable = ['company_id', 'user_id', 'action', 'changes'];
+
+    protected function casts(): array
+    {
+        return [
+            'changes' => 'array',
+        ];
+    }
 }

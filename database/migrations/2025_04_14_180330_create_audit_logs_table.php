@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('action');
-            $table->string('changes');
-            $table->timestamps();
+            $table->json('changes');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

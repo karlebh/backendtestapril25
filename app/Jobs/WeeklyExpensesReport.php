@@ -26,7 +26,7 @@ class WeeklyExpensesReport implements ShouldQueue
      */
     public function handle(): void
     {
-        $admins = User::where('role', UserRole::Admin)->get();
+        $admins = User::where('role', UserRole::ADMIN)->get();
 
         Mail::to($admins)->send(new ExpensesReport());
         //send all expense reports to admin
