@@ -13,10 +13,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/expenses', [ExpenseController::class, 'index']);
+Route::post('/register', [AuthController::class, 'register'])->middleware(AdminOnlyAccess::class);
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/expenses', [ExpenseController::class, 'index']);
     Route::post('/expenses', [ExpenseController::class, 'store']);
     Route::put('/expenses/{id}', [ExpenseController::class, 'update'])->middleware(AdminAndManagerAccess::class);
 
@@ -29,6 +29,3 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy']);
     });
 });
-
-
-Route::post('/register', [AuthController::class, 'register'])->middleware(AdminOnlyAccess::class);

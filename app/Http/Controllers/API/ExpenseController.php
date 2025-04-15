@@ -3,29 +3,70 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateExpenseRequest;
+use App\Http\Requests\ListExpenseRequest;
+use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
+use App\Traits\ResponseTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ExpenseController extends Controller
 {
-    public function index(Request $request)
+    use ResponseTrait;
+
+    public function index(ListExpenseRequest $request): JsonResponse
     {
-        $request->validate([
-            'title' => ['string'],
-            'category' => ['string'],
-        ]);
+        try {
+            $requestData = $request->validated();
 
-        $expenses = Expense::query()
-            ->where('company_id', $request->user()->company_id)
-            ->when($request->title, fn(Builder $query) => $query->where('title', 'like', "%{$$request->title}%"))
-            ->when($request->category, fn(Builder $query) => $query->where('category', 'like',  "%{$request->category}%"))
-            ->pagainate(20);
+            $expenses = Expense::query()
+                ->with('user')
+                ->where('company_id', $requestData['company_id'])
+                ->when($request->title, fn(Builder $query) => $query->where('title', 'like', "%{$$requestData['title']}%"))
+                ->when($request->category, fn(Builder $query) => $query->where('category', 'like',  "%{$requestData['category']}%"))
+                ->pagainate(20);
 
-        return response()->json(['message' => '', 'expenses' => $expenses], 200);
+            return $this->successResponse('Company expenses retrieved successfully', ['expenses' => $expenses]);
+        } catch (Throwable $throwable) {
+            return $this->serverErrorResponse(throwable: $throwable, message: 'Server error');
+        }
     }
 
-    public function store() {}
-    public function update() {}
+    public function store(CreateExpenseRequest $request): JsonResponse
+    {
+        try {
+            $requestData = $request->validated();
+
+            $expense = Expense::create($requestData);
+
+            if (! $expense) {
+                return $this->badRequestResponse('Could not create expense');
+            }
+
+            return $this->successResponse('Expense created successfully', ['expense' => $expense]);
+        } catch (\Throwable $throwable) {
+            return $this->serverErrorResponse(throwable: $throwable, message: 'Server error');
+        }
+    }
+
+    public function update(int $id, UpdateExpenseRequest $request): JsonResponse
+    {
+        try {
+            $expense = Expense::find($id);
+
+            if (! $expense) {
+                return $this->badRequestResponse('Could not retrieve expense');
+            }
+
+            $expense->update();
+
+            return $this->successResponse('Expense updated successfully', ['expense' => $expense]);
+        } catch (\Throwable $throwable) {
+            return $this->serverErrorResponse(throwable: $throwable, message: 'Server error');
+        }
+    }
     public function destroy() {}
 }
