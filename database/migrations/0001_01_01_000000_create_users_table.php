@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->enum('role', ['Admin', 'Manager', 'Employee'])->default('null');
+            $table->enum('role', [UserRole::Admin, UserRole::Manager, UserRole::Employee])->default(UserRole::Employee);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
