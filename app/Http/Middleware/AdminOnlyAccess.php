@@ -16,7 +16,7 @@ class AdminOnlyAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->role !== UserRole::Admin) {
+        if ($request->user()->role !== UserRole::ADMIN) {
             return response()->json(['message' => 'Only admins can perform this action'], 403);
         }
 

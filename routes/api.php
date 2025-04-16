@@ -12,20 +12,20 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register'])->middleware(AdminOnlyAccess::class);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register')->middleware(AdminOnlyAccess::class);
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/expenses', [ExpenseController::class, 'index']);
-    Route::post('/expenses', [ExpenseController::class, 'store']);
-    Route::put('/expenses/{id}', [ExpenseController::class, 'update'])->middleware(AdminAndManagerAccess::class);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::put('/expenses/{id}', [ExpenseController::class, 'update'])->name('expenses.update')->middleware(AdminAndManagerAccess::class);
 
 
     Route::group(['middleware' => AdminOnlyAccess::class], function () {
-        Route::get('/users', [UserController::class, 'index']);
-        Route::post('/users', [UserController::class, 'store']);
-        Route::put('/users/{id}', [UserController::class, 'update']);
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
-        Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy']);
+        Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy'])->name('expenses.delete');
     });
 });
