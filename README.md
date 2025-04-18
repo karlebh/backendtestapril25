@@ -4,9 +4,13 @@ This is the solution to th technical test for laravel backend developers.
 
 I have attached the API collection in the root directory as `Backend Test.postman_collection.json`
 
-The api documentation is published to this url `https://documenter.getpostman.com/view/34356572/2sB2cd4dZF`
+# 📚 API Documentation
 
-To run please follow these instructions:
+The full API documentation is available via Postman:
+
+👉 [View Documentation](https://documenter.getpostman.com/view/34356572/2sB2cd4dZF)
+
+# To run please follow these instructions:
 
 1. Clone the repository.
 2. cd into it.
