@@ -8,7 +8,7 @@ I have attached the API collection in the root directory as `Backend Test.postma
 
 The full API documentation is available via Postman:
 
-👉 [View Documentation](https://documenter.getpostman.com/view/34356572/2sB2cd4dZF)
+👉 <a href="https://documenter.getpostman.com/view/34356572/2sB2cd4dZF" target="_blank">📖 View Full API Docs (opens in new tab)</a>
 
 # To run please follow these instructions:
 
