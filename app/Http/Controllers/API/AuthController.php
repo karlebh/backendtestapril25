@@ -66,6 +66,7 @@ class AuthController extends Controller
             return $this->serverErrorResponse(throwable: $throwable, message: 'registration unsuccessful');
         }
     }
+
     private function cleanToken($token)
     {
         return (explode('|', $token))[1];

@@ -15,7 +15,8 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'role' => UserRole::EMPLOYEEE,
+            'email' => 'employee@test.com',
+            'role' => UserRole::EMPLOYEE,
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\ListExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Traits\ResponseTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
@@ -26,9 +27,9 @@ class ExpenseController extends Controller
                 return Expense::query()
                     ->with(['user', 'company'])
                     ->where('company_id', $requestData['company_id'])
-                    ->when($requestData['title'], fn(Builder $query) => $query->where('title', 'like', "%{$requestData['title']}%"))
-                    ->when($requestData['category'], fn(Builder $query) => $query->where('category', 'like',  "%{$requestData['category']}%"))
-                    ->pagainate(20);
+                    ->when(! empty($requestData['title']), fn(Builder $query) => $query->where('title', 'like', "%{$requestData['title']}%"))
+                    ->when(! empty($requestData['category']), fn(Builder $query) => $query->where('category', 'like',  "%{$requestData['category']}%"))
+                    ->paginate(20);
             });
 
             return $this->successResponse('Company expenses retrieved successfully', ['expenses' => $expenses]);
@@ -42,7 +43,12 @@ class ExpenseController extends Controller
         try {
             $requestData = $request->validated();
 
-            $expense = Expense::create($requestData);
+            $user = Auth::user();
+
+            $expense = Expense::create(array_merge(
+                $requestData,
+                ['company_id' => $user->company_id, 'user_id' => $user->id]
+            ));
 
             if (! $expense) {
                 return $this->badRequestResponse('Could not create expense');

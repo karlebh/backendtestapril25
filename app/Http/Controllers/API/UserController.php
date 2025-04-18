@@ -19,7 +19,7 @@ class UserController extends Controller
         try {
             $users = Cache::remember('users', 60, function () {
                 return User::query()
-                    ->with(['company', 'expense'])
+                    ->with(['company', 'expenses'])
                     ->paginate(20);
             });
 

@@ -27,8 +27,15 @@ class UpdateUserRoleRequest extends FormRequest
             'role' => ['required', 'string', Rule::in([
                 UserRole::ADMIN,
                 UserRole::MANAGER,
-                UserRole::EMPLOYEEE,
+                UserRole::EMPLOYEE,
             ])],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'role.in' => 'The selected role must be one of: admin, manager, or employee.',
         ];
     }
 }

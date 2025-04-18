@@ -31,7 +31,7 @@ class AdminCreateUserRequest extends FormRequest
             'role' => ['required', 'string', Rule::in([
                 UserRole::ADMIN,
                 UserRole::MANAGER,
-                UserRole::EMPLOYEEE,
+                UserRole::EMPLOYEE,
             ])],
             'password' => [
                 'required',
@@ -42,6 +42,13 @@ class AdminCreateUserRequest extends FormRequest
                 //     ->numbers()
                 //     ->symbols(),
             ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'role.in' => 'The selected role must be one of: admin, manager, or employee.',
         ];
     }
 }

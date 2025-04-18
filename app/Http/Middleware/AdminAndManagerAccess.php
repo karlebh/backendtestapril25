@@ -16,8 +16,14 @@ class AdminAndManagerAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->role === UserRole::EMPLOYEEE) {
+        $user = $request->user();
+
+        if ($user->role === UserRole::EMPLOYEE) {
             return response()->json(['message' => 'Only admins and managers can perform this action'], 403);
+        }
+
+        if ($user->role === UserRole::MANAGER && $user->company_id !== (int) $request->route('id')) {
+            return response()->json(['message' => 'Managers can not manage another comapny\'s expense'], 403);
         }
 
         return $next($request);

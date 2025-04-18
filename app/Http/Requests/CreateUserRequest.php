@@ -39,4 +39,11 @@ class CreateUserRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'role.in' => 'The selected role must be one of: admin, manager, or employee.',
+        ];
+    }
 }

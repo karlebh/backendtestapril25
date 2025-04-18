@@ -14,12 +14,13 @@ class ExpenseObserver
 
         AuditLog::create([
             'user_id' => $user->id,
-            'company_id' => $user->user->company_id,
+            'company_id' => $user->company_id,
             'action' => 'update',
             'changes' => [
                 'before' => $expense->getOriginal(),
-                'after' => $expense->getDirty(),
+                'after' => $expense,
             ],
+            'created_at' => now(),
         ]);
     }
 
@@ -29,12 +30,13 @@ class ExpenseObserver
 
         AuditLog::create([
             'user_id' => $user->id,
-            'company_id' => $user->user->company_id,
+            'company_id' => $user->company_id,
             'action' => 'delete',
             'changes' => [
                 'before' => $expense->toArray(),
                 'after' => null,
             ],
+            'created_at' => now(),
         ]);
     }
 }

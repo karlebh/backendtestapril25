@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->enum('role', [UserRole::ADMIN, UserRole::MANAGER, UserRole::EMPLOYEEE])->default(UserRole::EMPLOYEEE);
+            $table->enum('role', [UserRole::ADMIN, UserRole::MANAGER, UserRole::EMPLOYEE])->default(UserRole::EMPLOYEE);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

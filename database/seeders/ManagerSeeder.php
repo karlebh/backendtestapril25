@@ -16,6 +16,7 @@ class ManagerSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
+            'email' => 'manager@test.com',
             'role' => UserRole::MANAGER,
         ]);
     }

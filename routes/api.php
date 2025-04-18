@@ -12,8 +12,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register')->middleware(AdminOnlyAccess::class);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
