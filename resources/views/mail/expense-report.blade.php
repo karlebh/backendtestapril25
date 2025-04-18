@@ -11,23 +11,22 @@
 
         <p>Here is a list of expenses for the past week:</p>
 
-        @if (count($expenses) > 0)
-            <ul>
-                @foreach ($expenses as $expense)
-                    <li>
-                        <strong>User:</strong> {{ $expense->user->name }}<br>
-                        <strong>Company:</strong> {{ $expense->company->name }}<br>
-                        <strong>Title:</strong> {{ $expense->title }}<br>
-                        <strong>Amount:</strong> {{ number_format($expense->amount, 2) }}<br>
-                        <strong>Category:</strong> {{ $expense->category }}<br>
-                        <strong>Date:</strong> {{ $expense->created_at->format('F j, Y') }}
-                    </li>
-                    <br>
-                @endforeach
-            </ul>
-        @else
-            <p>No expenses recorded this week.</p>
-        @endif
+        <ul>
+            @forelse ($expenses as $expense)
+                <li>
+                    <strong>User:</strong> {{ $expense->user->name }}<br>
+                    <strong>Company:</strong> {{ $expense->company->name }}<br>
+                    <strong>Title:</strong> {{ $expense->title }}<br>
+                    <strong>Amount:</strong> {{ number_format($expense->amount, 2) }}<br>
+                    <strong>Category:</strong> {{ $expense->category }}<br>
+                    <strong>Date:</strong> {{ $expense->created_at->format('F j, Y') }}
+                </li>
+                <br>
+            @empty
+                <p>No expenses recorded this week.</p>
+            @endforelse
+        </ul>
+
 
         <p>
             <a href="{{ route('expenses.index') }}"
